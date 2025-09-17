@@ -1,3 +1,4 @@
-const FIRST_NAME = 'Mikhail'
-const LAST_NAME = 'Tiurin'
-const PATRONYMIC = 'Yurievich'
+const LAST_NAME = "Tiurin";
+const FIRST_NAME = "Mikhail";
+const PATRONYMIC = "Yurievich";
+console.log(LAST_NAME, FIRST_NAME, PATRONYMIC);

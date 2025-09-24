@@ -5,7 +5,7 @@ const sum = (a, b) => {
   alert(`The result of sum is ${a + b}!`);
   alert(`The result of subtract is ${a - b}!`);
   alert(`The result of multiply is ${a * b}!`);
-  alert(`The result of division is ${a / b}!`);
+  alert(`The result of division is ${Math.round(a / b)}!`);
   return 0;
 };
 

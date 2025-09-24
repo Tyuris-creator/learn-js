@@ -1,9 +1,10 @@
-// const LAST_NAME = "Tiurin";
-// const FIRST_NAME = "Mikhail";
-// const PATRONYMIC = "Yurievich";
-// console.log(LAST_NAME, FIRST_NAME, PATRONYMIC);
+const num1 = Number(prompt("Give me 1st number"));
+const num2 = Number(prompt("Give me 2nd number"));
 
-const LAST_NAME = prompt('Ваше имя?')
-const FIRST_NAME = prompt('Ваше фамилия?')
-const PATRONYMIC = prompt('Ваше отчество?')
-alert(`С возвращением ${LAST_NAME} ${FIRST_NAME} ${PATRONYMIC}!`)
+const sum = (a, b) => {
+  alert(`The result is ${a + b}!`);
+  console.log(a + b);
+  return 0;
+};
+
+sum(num1, num2);

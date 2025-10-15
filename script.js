@@ -118,9 +118,33 @@ console.log(getUniqueValues([1, 1, 2, 2, 2, 3, 3, 4, 4, 5, 5]));
 function arrayToObject(arr) {
   return Object.fromEntries(arr);
 }
-console.log(arrayToObject([
-  ["name", "John"],
-  ["age", 30],
-  ["city", "New York"],
-]));
+console.log(
+  arrayToObject([
+    ["name", "John"],
+    ["age", 30],
+    ["city", "New York"],
+  ])
+);
 
+//    9. Фильтрация по нескольким условиям:
+// - Напишите функцию filterUsers(users, filters), где filters — объект с условиями (напр., { age: 30, city: 'Moscow' }).
+// - Верните пользователей, удовлетворяющих ВСЕМ условиям.
+// - Пример исходного объекта users = [{name: 'Ivan',  age: 31, city: 'Saratov'}, {name: 'Oleg', age: 30, city: 'Omsk'}, {name: 'Anastasiya', age: 30, city: 'Moscow'}, {И ТД}]
+
+function filterUsers(users, filters) {
+  return users.filter((user) => {
+    for (const key in filters) {
+      if (user[key] !== filters[key]) {
+        return false;
+      }
+    }
+    return true;
+  });
+}
+
+//   10. Разница между двумя массивами:
+// - Напишите функцию arrayDiff(arr1, arr2), которая возвращает новый массив с элементами, которые есть в arr1, но нет в arr2.
+
+function arrayDiff(arr1, arr2) {
+  return arr1.filter((item) => !arr2.includes(item));
+}

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин Электроники и Садовой Техники</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .cart-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            padding: 10px 15px;
+            background: #2c5aa0;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Стили для карточек товаров */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #eaeaea;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4444;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-badge.hit {
+            background: #45b7d1;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-category {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 12px;
+        }
+
+        .product-specs {
+            margin-bottom: 15px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .spec-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .colors-list, .memory-list, .specs-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .color-chip, .memory-chip, .spec-chip {
+            padding: 3px 8px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            font-size: 0.8em;
+            border: 1px solid #ddd;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: #ffa500;
+            font-size: 1.1em;
+        }
+
+        .rating-value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stock-status {
+            margin-bottom: 15px;
+        }
+
+        .in-stock {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .out-of-stock {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 12px;
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #1e3d6f;
+            transform: translateY(-2px);
+        }
+
+        .add-to-cart:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Сайдбар корзины */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .remove-from-cart {
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        @media (max-width: 768px) {
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>🛍️ Магазин Электроники и Садовой Техники</h1>
+                <div class="cart-info">
+                    <span>Общая сумма: <strong id="total-amount">0</strong> руб.</span>
+                    <div class="cart-icon" id="cart-icon">
+                        🛒 Корзина
+                        <span class="cart-count" id="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="search">Поиск товаров:</label>
+                    <input type="text" id="search" placeholder="Введите название товара...">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="category-filter">Категория:</label>
+                    <select id="category-filter">
+                        <option value="">Все категории</option>
+                        <option value="Электроника">Электроника</option>
+                        <option value="Садовая техника">Садовая техника</option>
+                        <option value="Аксессуары">Аксессуары</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="price-range">Макс. цена:</label>
+                    <select id="price-range">
+                        <option value="">Любая цена</option>
+                        <option value="10000">до 10,000 руб.</option>
+                        <option value="20000">до 20,000 руб.</option>
+                        <option value="50000">до 50,000 руб.</option>
+                        <option value="100000">до 100,000 руб.</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="min-rating">Мин. рейтинг:</label>
+                    <select id="min-rating">
+                        <option value="">Любой рейтинг</option>
+                        <option value="4.5">4.5+</option>
+                        <option value="4.0">4.0+</option>
+                        <option value="3.5">3.5+</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>
+                        <input type="checkbox" id="in-stock"> Только в наличии
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-badge hit">ХИТ</div>
+                    <div class="product-image">💻</div>
+                    <div class="product-category">Электроника • Ноутбуки</div>
+                    <h3 class="product-name">MacBook Air</h3>
+                    <div class="product-price">90 000 руб.</div>
+                    <div class="product-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">Характеристики:</span>
+                            <div class="specs-list">
+                                <span class="spec-chip">8GB RAM</span>
+                                <span class="spec-chip">256GB SSD</span>
+                                <span class="spec-chip">M1</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-rating">
+                        <div class="stars">★★★★★</div>
+                        <span class="rating-value">4.9</span>
+                    </div>
+                    <div class="stock-status">
+                        <span class="in-stock">✓ В наличии</span>
+                    </div>
+                    <button class="add-to-cart">🛒 Добавить в корзину</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Сайдбар корзины -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>🛒 Ваша корзина</h2>
+            <button class="close-cart" id="close-cart">×</button>
+        </div>
+        
+        <div class="cart-items" id="cart-items">
+            <!-- Товары корзины будут здесь -->
+        </div>
+        
+        <div class="cart-total">
+            Итого: <span id="cart-total">0</span> руб.
+        </div>
+    </div>
+</body>
+</html>
